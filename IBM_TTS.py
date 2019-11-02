@@ -1,4 +1,6 @@
 #!/usr/bin/env python3from ibm_watson import SpeechToTextV1
+
+#Importing Neccessary Libraries
 from ibm_watson.websocket import SynthesizeCallback
 import pyaudio
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
@@ -7,9 +9,13 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import speech_recognition as sr
 import time
-authenticator = IAMAuthenticator('EKsJcbw_OxkfKKUijUqfvz6OeOVZJsu6lwzyFapbwFFW')
+
+#Setting up API call requirements
+authenticator = IAMAuthenticator('Your authentication key from ibm text-speech cloud services')
 service = TextToSpeechV1(authenticator=authenticator)
-service.set_service_url('https://gateway-lon.watsonplatform.net/text-to-speech/api')
+service.set_service_url('The url in your ibm text-speech credentials')
+
+#Setting up neccessary classes 
 class Play(object):
     """
     Wrapper to play the audio in a blocking mode
@@ -70,6 +76,7 @@ class MySynthesizeCallback(SynthesizeCallback):
     def on_close(self):
         print('Completed synthesizing')
         self.play.complete_playing()
+
 #Housing the required elements for tts in a function
 def speak(SSML_text):
     test_callback = MySynthesizeCallback()
@@ -78,30 +85,6 @@ def speak(SSML_text):
                                    accept='audio/wav',
                                    voice="en-US_AllisonVoice"
                                   )
-#Now intializing stt
-#Welcome message on bootup
-      # <express-as type=\"Apology\">
-        #I am sorry to inform you that the items you requested are backordered.
-        #We apologize for the inconvenience.
-       #</express-as>
-      #<express-as type=\"Uncertainty\">
-        #We don't know when the items will become available. Maybe next week,
-        #but we are not sure at this time.
-      #</express-as>
-      #<express-as type=\"GoodNews\">
-        #But because we want you to be a satisfied customer, we are giving you
-        #a 50% discount on your order!
-      #</express-as>
-#Main Command Sentences
-#If statements
-#import speech_recognition as sr
-# initialization
-#time.sleep(2)
-#SSML_speak = """
- #  <speak><voice-transformation type="Custom" pitch="70%">Hey!!,</voice-transformation>
-  #      My name is Needah, and i am an automated bot, that will help you surf the
-   #     web. You can say, 'open firefox', to get started </speak>"""
-#speak(SSML_speak)
 reply = """<speak><emphasis-as type="GoodNews">"I got these results for you"</emphasis></speak>"""
 error = """<speak><emphasis-as type=Apology">"Sorry, right now, i can only search google, and send mails, sorry fam"</emphasis></speak>""" 
 r = sr.Recognizer()
@@ -115,35 +98,37 @@ def search_google(query):
 def facebook_login():
     browser.get('http://www.facebook.com')
     username = browser.find_element_by_id('email')
-    username.send_keys('07062037265')
+    username.send_keys('You facebook email')
     password = browser.find_element_by_id('pass')
-    password.send_keys('General1')
+    password.send_keys('Your facebook password')
     password.submit()
 def email_login():
     browser.get('http://www.gmail.com')
     username = browser.find_element_by_id('identifierId')
-    username.send_keys('willdynamics@gmail.com')
+    username.send_keys('Your gmail')
     username.submit()
     time.sleep(5)
     password = browser.find_element_by_class('whsOnd zHQkBf')
-    password.send_keys('generalpun')
+    password.send_keys('Your password')
     password.submit()
-def kwasu_portal():
-    browser.get('http://myportal.kwasu.edu.ng')
-    username = browser.find_element_by_id('user_name')
-    username.send_keys('16/67aa/081')
-    password = browser.find_element_by_id('password')
-    password.send_keys('salako')
-    submit = browser.find_element_by_tag_name('button')
-    submit.click()
-def kwasu_results():
-    browser.get('http://myportal.kwasu.edu.ng/student/result')
+# def kwasu_portal():
+    #browser.get('http://myportal.kwasu.edu.ng')
+    #username = browser.find_element_by_id('user_name')
+    #username.send_keys('My Matric Number')
+    #password = browser.find_element_by_id('password')
+    #password.send_keys('Kwasu password')
+    #submit = browser.find_element_by_tag_name('button')
+    #submit.click()
+#def kwasu_results():
+    #browser.get('http://myportal.kwasu.edu.ng/student/result')
 #def kwasu_portal():
-#def facebook_details():
-#    friend_requests = browser.find_element_by_id('fbRequestsJewel')
+
+#Future Developments must be able to check for friend requests
+def facebook_details():
+    friend_requests = browser.find_element_by_id('fbRequestsJewel')
     
-    
-def activate(phrase='babe'):
+#Wake-Up Call
+def activate(phrase='isaac'):
     try:
         with mic as source:
             r.adjust_for_ambient_noise(source)
@@ -160,7 +145,9 @@ def activate(phrase='babe'):
 while True:
     if activate() == True:
         try:
-            speak("Hey Dee, how can I help you today?")
+            speak("Hey, how can I help you today?")
+            
+            #The speech recognizer system
             with mic as source:
                 print('Say Something!')
                 r.adjust_for_ambient_noise(source)
@@ -172,6 +159,8 @@ while True:
                 Reality_Conf = 'reality conference'                
                 portal = 'portal'
                 portal_results = 'result'
+                
+                #Functionalities
                 if phrase in transcript.lower():
                     search = transcript.lower().split(phrase)[-1]
                     search_google(search)
