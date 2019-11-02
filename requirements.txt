@@ -1,0 +1,13 @@
+The Voice Automated Web Surfer requires the following libraries or dependencies to work perfectly
+  - ibm-watson cloud
+  - pyaudio
+  - Speech Recognition Library
+  - API Access key from IBM CLOUD
+  - SELENIUM library
+
+You can istall them by
+
+pip install ibm-watson cloud
+pip install pyaudio
+pip install SpeechRecognition
+pip install selenium
